@@ -10,6 +10,10 @@ public class PlayerController : MonoBehaviour {
     public Rigidbody rb;
     public float jumpForce = 1f;
     public float jumpY = 0.5f;
+    public GameObject AIMaster;
+    private GameObject destCube;
+    private Inventory inventory;
+    public GameObject collectibleBuilt;
 
 	// Use this for initialization
 	void Start () {
@@ -18,11 +22,11 @@ public class PlayerController : MonoBehaviour {
         zHit = transform.position.z;
         rb = GetComponent<Rigidbody>();
         Time.timeScale = 1f;
+        inventory = GetComponent<Inventory>();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(state);
         if (Mathf.Abs(xHit - transform.position.x) < 0.01 && Mathf.Abs(zHit - transform.position.z) < 0.01)
         {
             state = "idle";
@@ -63,7 +67,30 @@ public class PlayerController : MonoBehaviour {
                         int z = (int)zHit;
                         xHit = x + 0.5f;
                         zHit = z + 0.5f;
+                        destCube = hit.transform.gameObject;
+                        AIMaster.GetComponent<AIMaster>().move();
                     }
+                }
+                else if (hit.transform.tag == "Collectible")
+                {
+                    hit.transform.GetComponent<CollectibleController>().collect(gameObject);
+                }
+                else if (hit.transform.tag == "CraftingTable")
+                {
+                    Debug.Log("Crafting!");
+                    int nC = inventory.getnCollectibles();
+                    if (nC == 3)
+                    {
+                        Debug.Log("Making the sword!");
+                        GameObject obj = Instantiate(collectibleBuilt);
+                        obj.transform.position = hit.transform.position + (new Vector3(0, 1, 0));
+                        inventory.setnCollectibles(0);
+                    }
+                }
+                else if (hit.transform.tag == "CollectibleBuilt")
+                {
+                    inventory.collectBuilt();
+                    Destroy(hit.transform.gameObject);
                 }
             }
         }
@@ -84,5 +111,28 @@ public class PlayerController : MonoBehaviour {
                 rb.AddForce(direction * jumpForce);
             }
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Patrol" || collision.transform.tag == "Follow")
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public GameObject getPlayerNextPositionCube()
+    {
+        return destCube;
+    }
+
+    public List<GameObject> getOccupiedCubes()
+    {
+        return AIMaster.GetComponent<AIMaster>().getOccupiedCubes();
+    }
+
+    public void addOccupiedCube (GameObject cube)
+    {
+        AIMaster.GetComponent<AIMaster>().addOccupiedCube(cube);
     }
 }
