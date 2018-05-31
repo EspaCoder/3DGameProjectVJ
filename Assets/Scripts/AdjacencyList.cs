@@ -5,6 +5,7 @@ using UnityEngine;
 public class AdjacencyList : MonoBehaviour {
 
     public List<GameObject> adjacencyList;
+    public List<GameObject> playerAdjacencyList;
 
     // Use this for initialization
     void Start () {
@@ -19,5 +20,10 @@ public class AdjacencyList : MonoBehaviour {
     public List<GameObject> getAdjacencyList ()
     {
         return adjacencyList;
+    }
+
+    public List<GameObject> getPlayerAdjacencyList()
+    {
+        return playerAdjacencyList;
     }
 }

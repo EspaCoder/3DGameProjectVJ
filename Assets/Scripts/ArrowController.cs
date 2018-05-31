@@ -44,6 +44,10 @@ public class ArrowController : MonoBehaviour {
 
     public void move()
     {
+        if (steps == 1)
+        {
+            gameObject.GetComponent<BoxCollider>().enabled = true;
+        }
         if (state == "idle" || state == "moving")
         {
             target = transform.position + transform.TransformDirection(direction) * 3;
@@ -60,10 +64,11 @@ public class ArrowController : MonoBehaviour {
         {
             transform.parent = collision.transform;
             collision.transform.gameObject.GetComponent<ButtonExample>().doAction();
+            gameObject.GetComponent<BoxCollider>().enabled = false;
         }
         else if (collision.transform.tag == "Player")
         {
-            Destroy(collision.transform.gameObject);
+            collision.transform.GetComponent<PlayerController>().kill();
         }
     }
 

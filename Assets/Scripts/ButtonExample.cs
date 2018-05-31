@@ -19,7 +19,8 @@ public class ButtonExample : MonoBehaviour {
 	void Update () {
         if (state == "moveBack")
         {
-            transform.Translate(new Vector3(0, 0, 1) * speed, Space.Self);
+            Debug.Log("Move back");
+            transform.Translate(new Vector3(0, 0, -1) * speed, Space.Self);
             if (Mathf.Abs(transform.position.x - initialPos.x) > 0.05f || Mathf.Abs(transform.position.z - initialPos.z) > 0.05f)
             {
                 state = "stopped";
@@ -35,7 +36,8 @@ public class ButtonExample : MonoBehaviour {
         }
         else if (state == "moveForward")
         {
-            transform.Translate(new Vector3(0, 0, -1) * speed, Space.Self);
+            Debug.Log("Move forward");
+            transform.Translate(new Vector3(0, 0, 1) * speed, Space.Self);
             if (Mathf.Abs(transform.position.x - initialPos.x) < 0.01f && Mathf.Abs(transform.position.z - initialPos.z) < 0.01f)
             {
                 state = "idle";
@@ -46,6 +48,7 @@ public class ButtonExample : MonoBehaviour {
     public void doAction()
     {
         //Do whatever
+        Debug.Log("Doing button stuff");
         if (state == "idle")
         {
             state = "moveBack";

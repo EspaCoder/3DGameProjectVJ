@@ -5,7 +5,8 @@ using UnityEngine;
 public class Inventory : MonoBehaviour {
 
     private int nCollectibles;
-    private bool collecteibleBuilt;
+    private int nArtifactables;
+    private bool artifactBuilt;
 
     // Use this for initialization
     void Start() {
@@ -27,8 +28,18 @@ public class Inventory : MonoBehaviour {
         nCollectibles = nC;
     }
 
-    public void collectBuilt()
+    public int getnArtifactables()
     {
-        collecteibleBuilt = true;
+        return nArtifactables;
+    }
+
+    public void setnArtifactables(int nA)
+    {
+        nArtifactables = nA;
+    }
+
+    public void collectArtifact()
+    {
+        artifactBuilt = true;
     }
 }
