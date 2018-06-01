@@ -2,28 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectibleController : MonoBehaviour {
+public class ArtifactController : MonoBehaviour
+{
 
     private GameObject player;
     private float speed;
     public float acceleration;
     private bool collected;
-    private Inventory inventory;
     private AudioSource sound;
     public float rotationSpeed;
     private Vector3 initialPos;
     public float upDownSpeed;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         speed = 0;
         collected = false;
         sound = GetComponent<AudioSource>();
         initialPos = transform.position;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (collected)
         {
             Vector3 distance = player.transform.position - transform.position;
@@ -32,8 +34,6 @@ public class CollectibleController : MonoBehaviour {
             speed += acceleration;
             if ((Mathf.Abs(distance.x) < 1) && (Mathf.Abs(distance.y) < 1) && (Mathf.Abs(distance.z) < 1))
             {
-                int nC = inventory.getnCollectibles();
-                inventory.setnCollectibles(nC + 1);
                 Destroy(gameObject);
             }
             if ((Mathf.Abs(distance.x) < 2) && (Mathf.Abs(distance.y) < 2) && (Mathf.Abs(distance.z) < 2))
@@ -45,14 +45,13 @@ public class CollectibleController : MonoBehaviour {
         else
         {
             transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
-            transform.position = initialPos + new Vector3(0, Mathf.Sin(upDownSpeed*Time.time)/8, 0);
+            transform.position = initialPos + new Vector3(0, Mathf.Sin(upDownSpeed * Time.time) / 8, 0);
         }
-	}
+    }
 
-    public void collect (GameObject player)
+    public void collect(GameObject player)
     {
         this.player = player;
-        inventory = player.GetComponent<Inventory>();
         collected = true;
     }
 }

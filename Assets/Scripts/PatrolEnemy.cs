@@ -67,7 +67,6 @@ public class PatrolEnemy : MonoBehaviour
             Destroy(player.transform.gameObject);
             Destroy(gameObject);
         }
-        Debug.Log(state + " " + explodeState);
     }
 
     public void move ()
